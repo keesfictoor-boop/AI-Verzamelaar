@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Provinciaal AI Ideeën- & Kansenloket</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 font-sans">
+
+  <!-- Navigatiebalk -->
+  <header class="bg-indigo-900 text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="bg-emerald-400 text-indigo-950 p-2 rounded-lg font-extrabold text-xl">AI</div>
+        <div>
+          <h1 class="font-bold text-lg leading-tight">Provinciaal AI Innovatieloket</h1>
+          <p class="text-xs text-indigo-200">Verzamel- & Beoordelings-tool voor AI-Toepassingen</p>
+        </div>
+      </div>
+      <div class="space-x-2">
+        <button onclick="switchTab('wizard')" id="btn-tab-wizard" class="px-4 py-2 text-sm rounded-md bg-white text-indigo-900 font-semibold shadow">Nieuw AI-Idee</button>
+        <button onclick="switchTab('browser')" id="btn-tab-browser" class="px-4 py-2 text-sm rounded-md text-white hover:bg-indigo-800">Ideeënbank Browser</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6">
+
+    <!-- TAB 1: STAPSGEWIJZE WIZARD -->
+    <div id="tab-wizard" class="bg-white rounded-xl shadow-lg p-8">
+      <!-- Voortgangsbalk -->
+      <div class="mb-8">
+        <div class="flex justify-between text-xs text-slate-500 mb-1 font-semibold">
+          <span id="step-label">Stap 1 van 5</span>
+          <span id="step-title">AI-Type Kansen</span>
+        </div>
+        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+          <div id="progress-bar" class="bg-indigo-600 h-full w-1/5 transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <!-- STAP 1: Welk type AI-toepassing? -->
+      <div id="wizard-step-1" class="space-y-6">
+        <h2 class="text-xl font-bold text-slate-900">1. Waar kan AI bij helpen?</h2>
+        <p class="text-sm text-slate-600">Selecteer de hoofdklasse van de werkzaamheden die u efficiënter wilt maken:</p>
+        <div class="grid grid-cols-2 gap-4">
+          <button onclick="selectCategory('Documenten & Zoeken', 'AI die grote hoeveelheden beleidsstukken, verordeningen of zienswijzen doorzoekt en vragen beantwoordt.')" class="border-2 border-indigo-600 bg-indigo-50 hover:bg-indigo-100 p-5 rounded-lg text-left transition">
+            <span class="block font-bold text-indigo-950 mb-1">🔍 Slim Doorzoeken & Vragen</span>
+            <span class="text-xs text-slate-600">Documenten, verordeningen, plannen of zienswijzen doorzoekbaar maken met AI.</span>
+          </button>
+          <button onclick="selectCategory('Tekst & Samenvatten', 'AI die beleidsnotities, juridische teksten, mails of rapporten opstelt, herschrijft of samenvat.')" class="border-2 border-slate-200 hover:border-slate-400 p-5 rounded-lg text-left transition">
+            <span class="block font-bold text-slate-900 mb-1">✍️ Tekstschrijven & Samenvatten</span>
+            <span class="text-xs text-slate-600">Ondersteuning bij het opstellen van adviezen, nota's of samenvattingen.</span>
+          </button>
+          <button onclick="selectCategory('Data & Analyse', 'AI die ruimtelijke data, GIS-lagen, spreadsheets of monitoringsdata analyseert.')" class="border-2 border-slate-200 hover:border-slate-400 p-5 rounded-lg text-left transition">
+            <span class="block font-bold text-slate-900 mb-1">📊 Data & Ruimtelijke Analyse</span>
+            <span class="text-xs text-slate-600">Inzichten halen uit cijfers, kaarten, GIS-data of monitoring.</span>
+          </button>
+          <button onclick="selectCategory('Proces & Automatisering', 'AI die routinematige werkstromen, categoriseringen of inbox-verwerking versnelt.')" class="border-2 border-slate-200 hover:border-slate-400 p-5 rounded-lg text-left transition">
+            <span class="block font-bold text-slate-900 mb-1">⚙️ Proces-automatisering</span>
+            <span class="text-xs text-slate-600">Handmatige, herhalende stappen in werkprocessen versnellen.</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STAP 2: Omschrijving van het Idee / De Uitdaging -->
+      <div id="wizard-step-2" class="hidden space-y-6">
+        <h2 class="text-xl font-bold text-slate-900">2. Omschrijf het Idee / Het Probleem</h2>
+        
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Korte titel van het idee *</label>
+          <input type="text" id="idea-title" placeholder="bijv. AI-assistent voor het scannen van inspraakreacties op de Omgevingsvisie" class="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Voor welke afdeling / welk team is dit bedoeld?</label>
+          <input type="text" id="idea-department" placeholder="bijv. Team Ruimtelijke Planadviezen / P&O / Juridische Zaken" class="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Wat kost nu veel tijd en hoe moet AI dit oplossen? *</label>
+          <textarea id="idea-description" rows="4" class="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Omschrijf het knelpunt. Bijvoorbeeld: Bij grote plannen moeten we 200+ zienswijzen handmatig categoriseren en samenvatten per thema..."></textarea>
+        </div>
+
+        <div class="flex justify-between pt-2">
+          <button onclick="goToStep(1)" class="text-slate-500 text-sm font-medium">Terug</button>
+          <button onclick="validateStep2()" class="bg-indigo-900 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-800">Volgende</button>
+        </div>
+      </div>
+
+      <!-- STAP 3: Verwachte Impact & Tijdswinst -->
+      <div id="wizard-step-3" class="hidden space-y-6">
+        <h2 class="text-xl font-bold text-slate-900">3. Schat de Impact in</h2>
+        
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">Hoe vaak komt deze taak voor?</label>
+          <select id="idea-frequency" class="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="Dagelijks">Dagelijks (veel tijdwinst per medewerker)</option>
+            <option value="Wekelijks">Wekelijks / Per project</option>
+            <option value="Periodiek">Periodiek (bijv. 2x per jaar bij grote participatierondes)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">Verwachte potentiële besparing / voordeel:</label>
+          <select id="idea-benefit" class="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="Enorme tijdswinst">Enorme tijdswinst (bespaart tientallen uren per traject)</option>
+            <option value="Hogere kwaliteit & consistentie">Hogere kwaliteit / minder menselijke fouten</option>
+            <option value="Snellere servicetijd">Snellere reactietijd naar gemeenten / inwoners</option>
+          </select>
+        </div>
+
+        <div class="flex justify-between pt-4">
+          <button onclick="goToStep(2)" class="text-slate-500 text-sm font-medium">Terug</button>
+          <button onclick="triggerAIFeasibilityCheck()" class="bg-indigo-900 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-800">Analyseer Idee met AI</button>
+        </div>
+      </div>
+
+      <!-- STAP 4: AI Beoordeling & Samenvatting -->
+      <div id="wizard-step-4" class="hidden space-y-6">
+        <h2 class="text-xl font-bold text-slate-900">4. Automatische AI-Haalbaarheidscheck</h2>
+        
+        <div class="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-r-lg space-y-2">
+          <div class="flex items-center space-x-2 text-indigo-950 font-bold">
+            <span class="text-lg">🤖</span>
+            <span>AI-Systeemanalyse van uw idee:</span>
+          </div>
+          <p id="ai-analysis-summary" class="text-sm text-indigo-900 italic"></p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="border rounded-lg p-4 bg-emerald-50 border-emerald-200">
+            <span class="text-xs font-bold text-emerald-800 uppercase tracking-wider block mb-1">Schatting Haalbaarheid</span>
+            <span id="ai-feasibility-tag" class="text-sm font-semibold text-emerald-900">Hoog (bestaande AI-technologie beschikbaar)</span>
+          </div>
+          <div class="border rounded-lg p-4 bg-amber-50 border-amber-200">
+            <span class="text-xs font-bold text-amber-800 uppercase tracking-wider block mb-1">Aandachtspunt</span>
+            <span id="ai-privacy-tag" class="text-sm font-medium text-amber-900">Let op AVG / geen persoonsgegevens in de prompt.</span>
+          </div>
+        </div>
+
+        <p class="text-sm font-medium">Klopt deze samenvatting en wilt u dit idee indienen voor het innovatieteam?</p>
+        <div class="flex space-x-4">
+          <button onclick="saveIdea()" class="bg-emerald-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 flex items-center space-x-2">
+            <span>Ja, dien dit AI-idee in</span>
+          </button>
+          <button onclick="goToStep(2)" class="border border-slate-300 text-slate-700 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-slate-50">Nee, pas idee aan</button>
+        </div>
+      </div>
+
+      <!-- STAP 5: Bevestiging -->
+      <div id="wizard-step-5" class="hidden text-center space-y-4 py-8">
+        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">✓</div>
+        <h2 class="text-2xl font-bold text-slate-900">AI-Idee Succesvol Ingediend!</h2>
+        <p class="text-slate-600 text-sm">Het idee is opgenomen in de innovatiedatabase. Het AI-kernteam beoordeelt dit bij de volgende prioriteringsronde.</p>
+        <button onclick="resetWizard()" class="bg-indigo-900 text-white px-6 py-2 rounded-lg text-sm font-semibold mt-4">Nog een AI-idee aanmelden</button>
+      </div>
+    </div>
+
+    <!-- TAB 2: IDEEËNBANK BROWSER -->
+    <div id="tab-browser" class="hidden bg-white rounded-xl shadow-lg p-8">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Overzicht AI-Ideeën & Use Cases</h2>
+          <p class="text-sm text-slate-600">Gegroepeerd per AI-categorie. Vink ideeën aan om ze te selecteren voor een Proof of Concept (PoC).</p>
+        </div>
+        <button onclick="exportToCSV()" class="text-xs bg-slate-100 hover:bg-slate-200 border border-slate-300 font-semibold px-3 py-2 rounded-lg">📥 Exporteer naar CSV</button>
+      </div>
+
+      <div class="space-y-4" id="ideas-list">
+        <!-- Dynamisch gegenereerd -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // In-memory database voor AI-Ideeën
+    let db = [
+      {
+        id: 1,
+        category: 'Documenten & Zoeken',
+        title: 'AI-Zoeker door de Omgevingsvisie & Verordening',
+        department: 'Plan-advies',
+        description: 'Een AI-zoekassistent waarmee plan-adviseurs snel kunnen opvragen welke instructieregels op een specifiek initiatief van toepassing zijn.',
+        frequency: 'Dagelijks',
+        benefit: 'Enorme tijdswinst',
+        checked: true
+      },
+      {
+        id: 2,
+        category: 'Tekst & Samenvatten',
+        title: 'Samenvatten van Participatie-reacties',
+        department: 'Beleid & Participatie',
+        description: 'Automatisch categoriseren en samenvatten van honderden inspraakreacties bij grote provinciale projecten.',
+        frequency: 'Periodiek',
+        benefit: 'Enorme tijdswinst',
+        checked: false
+      },
+      {
+        id: 3,
+        category: 'Proces & Automatisering',
+        title: 'Intelligente Inbox-Verdeling Meldingen',
+        department: 'Klantcontact / Vergunningen',
+        description: 'AI analyseert inkomende mailaanvragen en herkent direct naar welk vakteam de vraag doorgezet moet worden.',
+        frequency: 'Dagelijks',
+        benefit: 'Snellere servicetijd',
+        checked: false
+      }
+    ];
+
+    let currentFormData = { category: '', categoryDesc: '', title: '', department: '', description: '', frequency: '', benefit: '', aiSummary: '' };
+
+    function switchTab(tab) {
+      document.getElementById('tab-wizard').classList.toggle('hidden', tab !== 'wizard');
+      document.getElementById('tab-browser').classList.toggle('hidden', tab !== 'browser');
+      document.getElementById('btn-tab-wizard').className = tab === 'wizard' ? "px-4 py-2 text-sm rounded-md bg-white text-indigo-900 font-semibold shadow" : "px-4 py-2 text-sm rounded-md text-white hover:bg-indigo-800";
+      document.getElementById('btn-tab-browser').className = tab === 'browser' ? "px-4 py-2 text-sm rounded-md bg-white text-indigo-900 font-semibold shadow" : "px-4 py-2 text-sm rounded-md text-white hover:bg-indigo-800";
+      if(tab === 'browser') renderBrowser();
+    }
+
+    function selectCategory(cat, desc) {
+      currentFormData.category = cat;
+      currentFormData.categoryDesc = desc;
+      goToStep(2);
+    }
+
+    function goToStep(step) {
+      [1,2,3,4,5].forEach(s => document.getElementById(`wizard-step-${s}`).classList.add('hidden'));
+      document.getElementById(`wizard-step-${step}`).classList.remove('hidden');
+      
+      document.getElementById('step-label').innerText = `Stap ${step} van 5`;
+      document.getElementById('progress-bar').style.width = `${(step/5)*100}%`;
+    }
+
+    function validateStep2() {
+      const title = document.getElementById('idea-title').value.trim();
+      const desc = document.getElementById('idea-description').value.trim();
+      
+      if (!title || !desc) {
+        alert('Vul a.u.b. minimaal een titel en een omschrijving in.');
+        return;
+      }
+      
+      currentFormData.title = title;
+      currentFormData.department = document.getElementById('idea-department').value.trim() || 'Algemeen';
+      currentFormData.description = desc;
+      goToStep(3);
+    }
+
+    function triggerAIFeasibilityCheck() {
+      currentFormData.frequency = document.getElementById('idea-frequency').value;
+      currentFormData.benefit = document.getElementById('idea-benefit').value;
+
+      // Simulatie van AI-analyse
+      currentFormData.aiSummary = `Toepassing valt onder '${currentFormData.category}'. Het voorgestelde idee kan worden gerealiseerd met moderne LLM-technologie (zoals Retrieval-Augmented Generation / RAG of gestructureerde prompting). Dit biedt potentieel een hoge efficiëntiewinst voor team ${currentFormData.department}.`;
+      
+      document.getElementById('ai-analysis-summary').innerText = `"${currentFormData.aiSummary}"`;
+      goToStep(4);
+    }
+
+    function saveIdea() {
+      db.push({
+        id: Date.now(),
+        category: currentFormData.category,
+        title: currentFormData.title,
+        department: currentFormData.department,
+        description: currentFormData.description,
+        frequency: currentFormData.frequency,
+        benefit: currentFormData.benefit,
+        checked: false
+      });
+
+      goToStep(5);
+    }
+
+    function resetWizard() {
+      document.getElementById('idea-title').value = '';
+      document.getElementById('idea-department').value = '';
+      document.getElementById('idea-description').value = '';
+      goToStep(1);
+    }
+
+    function renderBrowser() {
+      const container = document.getElementById('ideas-list');
+      container.innerHTML = '';
+
+      const grouped = {};
+      db.forEach(item => {
+        if(!grouped[item.category]) grouped[item.category] = [];
+        grouped[item.category].push(item);
+      });
+
+      for(let cat in grouped) {
+        let section = document.createElement('div');
+        section.className = "border border-slate-200 rounded-lg p-5 bg-slate-50";
+        
+        let header = `<h3 class="font-bold text-indigo-950 text-base mb-3 border-b pb-2 flex items-center justify-between">
+                        <span>${cat}</span>
+                        <span class="text-xs font-normal bg-indigo-100 text-indigo-900 px-2.5 py-1 rounded-full">${grouped[cat].length} idee(ën)</span>
+                      </h3>`;
+        
+        let itemsHtml = grouped[cat].map(item => `
+          <div class="bg-white p-4 rounded-md border border-slate-200 mb-2 shadow-sm flex items-start space-x-3">
+            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleCheck(${item.id})" class="mt-1 h-4 w-4 text-indigo-600 rounded cursor-pointer">
+            <div class="flex-1">
+              <div class="flex justify-between items-start">
+                <h4 class="font-bold text-slate-800 text-sm ${item.checked ? 'line-through text-slate-400' : ''}">${item.title}</h4>
+                <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono">${item.department}</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1 ${item.checked ? 'text-slate-400' : ''}">${item.description}</p>
+              <div class="mt-2 flex space-x-2 text-[11px] text-slate-500 font-medium">
+                <span class="bg-indigo-50 text-indigo-800 px-2 py-0.5 rounded">🔄 ${item.frequency}</span>
+                <span class="bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded">💡 ${item.benefit}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        section.innerHTML = header + itemsHtml;
+        container.appendChild(section);
+      }
+    }
+
+    function toggleCheck(id) {
+      let item = db.find(i => i.id === id);
+      if(item) item.checked = !item.checked;
+      renderBrowser();
+    }
+
+    function exportToCSV() {
+      let csvContent = "data:text/csv;charset=utf-8,Categorie,Titel,Afdeling,Omschrijving,Frequentie,Voordeel,Geselecteerd voor PoC\n";
+      db.forEach(i => {
+        csvContent += `"${i.category}","${i.title}","${i.department}","${i.description}","${i.frequency}","${i.benefit}","${i.checked ? 'Ja' : 'Nee'}"\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "provincie_ai_ideeen.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
